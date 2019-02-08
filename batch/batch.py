@@ -50,7 +50,7 @@ class MetadataReader:
 
     """
 
-    def __init__(self, filename, etds):
+    def __init__(self, filename, etds, web_path):
         """Initializes MetadataReader class.
 
         Args:
@@ -60,8 +60,16 @@ class MetadataReader:
         """
         self.file = filename
         self.etds = etds
+        self.web_path = self.__clean_web_path(web_path)
         self.bad_metadata = []
         self.urls = self.read_contents()
+
+    @staticmethod
+    def __clean_web_path(path):
+        if path.endswith('/'):
+            return path[:-1]
+        else:
+            return path
 
     def read_contents(self):
         """A method to read the last and first name from a spreadsheet.
@@ -84,7 +92,7 @@ class MetadataReader:
                     my_url = ""
                     for dissertation in self.etds:
                         if dissertation.startswith(starting_text):
-                            my_url = f"http://dlshare.lib.utk.edu/historical/2003disserations/{dissertation}"
+                            my_url = f"{self.web_path}/{dissertation}"
                     if my_url == "":
                         self.bad_metadata.append(f"{row[6]}{row[4]}")
                     urls_for_spreadsheet.append(my_url)

@@ -32,7 +32,7 @@ def main():
     else:
         etd_path = True
     etds = ETDs(args.etds_path, etd_path).contents
-    processor = MetadataReader(args.csv_path, etds)
+    processor = MetadataReader(args.csv_path, etds, args.etds_path)
     print(f"\n{processor.write_urls_to_file()}\n")
     print(f"Could not match on these values:\n{processor.bad_metadata}")
     return
